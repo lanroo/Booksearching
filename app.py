@@ -1,3 +1,4 @@
+from ast import Delete
 from crypt import methods
 from flask import Flask, jsonify, request
 
@@ -35,8 +36,6 @@ def obter_livro_id(id):
         return jsonify(livro)
 
 
-
-
 # Editar
 @app.route('/livros/<int:id>', methods=['PUT'])
 def editar_livro_por_id(id):
@@ -56,5 +55,12 @@ def incluir_novo_livro():
     return jsonify(livros)
 
 # Excluir
+@app.route('/livros/<int:id>', methods=['DELETE'])
+def excluir_livro(id):
+    for indice, livro in enumerate(livros):
+        if livro.get('id') == id:
+            del livros[indice]
+
+        return jsonify(livros)
 
 app.run(port=5000, host='localhost', debug=True)
